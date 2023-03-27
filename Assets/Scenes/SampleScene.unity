@@ -1564,6 +1564,7 @@ MonoBehaviour:
   SelectField: {fileID: 0}
   _startColor: {r: 0.4761837, g: 0.7169812, b: 0.50810635, a: 0}
   _selectColor: {r: 0.63750446, g: 0.8962264, b: 0.6542009, a: 0}
+  _spawner: {fileID: 1741145654}
 --- !u!1001 &998828591
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2478,7 +2479,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 589614d13f8863c4c8a13bd40203a3d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UnitObjects:
+  - {fileID: 8928963554076393137, guid: c738d4a86c1161849b403a711bab6208, type: 3}
+  UnitCost: 32000000
+  _currentType: 0
   _essenceText: {fileID: 277372282}
+  _essenceGain: 5
 --- !u!1001 &1800523304
 PrefabInstance:
   m_ObjectHideFlags: 0

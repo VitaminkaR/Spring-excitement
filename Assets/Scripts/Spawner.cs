@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-enum Unit
+enum UnitType
 {
     Snowdrop,
     Cloud,

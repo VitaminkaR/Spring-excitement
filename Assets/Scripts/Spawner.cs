@@ -28,7 +28,7 @@ public class Spawner : MonoBehaviour
     }
 
     // в зависимости от типа, создаёт определенного юнита на определенном поле
-    GameObject CreateUnit(Field field, Unit type)
+    GameObject CreateUnit(Field field, UnitType type)
     {
         return null;
     }

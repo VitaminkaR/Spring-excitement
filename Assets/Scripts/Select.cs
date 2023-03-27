@@ -4,15 +4,30 @@ using UnityEngine;
 
 public class Select : MonoBehaviour
 {
+    [HideInInspector] public GameObject SelectField;
+
+    [SerializeField] private Color _startColor;
+    [SerializeField] private Color _selectColor;
+
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        GameObject selectObject = SelectRaycast().collider?.gameObject;
+        if (selectObject != null && selectObject.GetComponent<Field>() != null)
         {
-            GameObject selectObject = SelectRaycast().collider.gameObject;
-            if (selectObject != null)
+            if(Input.GetMouseButtonDown(0))
             {
                 Debug.Log(selectObject.name);
             }
+            if(SelectField != null)
+                SelectField.GetComponent<Renderer>().material.color = _startColor;
+            SelectField = selectObject;
+            SelectField.GetComponent<Renderer>().material.color = _selectColor;
+        }
+        else
+        {
+            if (SelectField != null)
+                SelectField.GetComponent<Renderer>().material.color = _startColor;
+            SelectField = null;
         }
     }
 
@@ -20,7 +35,7 @@ public class Select : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        Physics.Raycast(ray.origin, ray.direction, out hit, 100);
+        Physics.Raycast(ray.origin, ray.direction, out hit, 1000);
         Debug.DrawRay(ray.origin, ray.direction * 100, Color.yellow);
         return hit;
     }

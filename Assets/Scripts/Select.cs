@@ -9,16 +9,18 @@ public class Select : MonoBehaviour
     [SerializeField] private Color _startColor;
     [SerializeField] private Color _selectColor;
 
+    [SerializeField] private Spawner _spawner;
+
     void Update()
     {
         GameObject selectObject = SelectRaycast().collider?.gameObject;
         if (selectObject != null && selectObject.GetComponent<Field>() != null)
         {
-            if(Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0))
             {
-                Debug.Log(selectObject.name);
+                _spawner.CreateUnit(selectObject.GetComponent<Field>());
             }
-            if(SelectField != null)
+            if (SelectField != null)
                 SelectField.GetComponent<Renderer>().material.color = _startColor;
             SelectField = selectObject;
             SelectField.GetComponent<Renderer>().material.color = _selectColor;

@@ -36,7 +36,6 @@ public class Select : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         Physics.Raycast(ray.origin, ray.direction, out hit, 1000);
-        Debug.DrawRay(ray.origin, ray.direction * 100, Color.yellow);
         return hit;
     }
 }

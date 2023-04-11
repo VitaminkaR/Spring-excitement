@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -19,7 +21,24 @@ public class Player : MonoBehaviour
     private float _time;
     //здоровье
     [SerializeField] private int _maxHealth;
-    private int _health;
+    [SerializeField] private int _health;
+    public int Health
+    {
+        set
+        {
+            _health += value;
+            if (_health > _maxHealth)
+                _health = _maxHealth;
+            if (_health < 0)
+                Death();
+        }
+        get { return _health; }
+    }
+
+    private void Death()
+    {
+        
+    }
 
     void Start()
     {
@@ -38,10 +57,6 @@ public class Player : MonoBehaviour
         if (_time > 0f)
         {
             _time -= Time.deltaTime;
-        }
-        if (_health > _maxHealth)
-        {
-            _health = _maxHealth;
         }
     }
 

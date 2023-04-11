@@ -25,6 +25,7 @@ public class SnowballAttack : MonoBehaviour
                 Vector3 postition = transform.position + new Vector3(0, 2, 0);
                 Rigidbody snowballRigidbody = snowball.GetComponent<Rigidbody>();
                 snowball.transform.position = postition;
+                snowball.GetComponent<Snowball>()._player = _enemy._player;
 
                 Vector3 vec = _enemy._player.transform.position - snowball.transform.position;
                 float dis = vec.magnitude;

@@ -287,7 +287,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemy: {fileID: 8326281005054173015}
   _attackFrequence: 5
-  _snowballSpeed: 5
+  _snowballSpeed: 20
   _snowballObj: {fileID: 3221043515122893035, guid: 90e9b56eeeb497344b650524bad6dd54, type: 3}
 --- !u!65 &8326281005054173097
 BoxCollider:

@@ -14,6 +14,9 @@ public class Player : MonoBehaviour
     [SerializeField] private float _punchForce;
     // враги которые находятся в радиусе действия удара
     [SerializeField] private List<Enemy> _enemies;
+    //задержка
+    [SerializeField] private float pause;
+    private float time;
 
 
 
@@ -24,9 +27,16 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        // простая атака
-        if (Input.GetMouseButtonDown(0))
+        // простая атака и задержка между ударами
+        if (Input.GetMouseButtonDown(0) && time <= 0)
+        {
             Attack();
+            time = pause;
+        }
+        if (time > 0f)
+        {
+            time -= Time.deltaTime;
+        }
     }
 
     void FixedUpdate()

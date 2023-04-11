@@ -461,6 +461,7 @@ GameObject:
   - component: {fileID: 1323946842}
   - component: {fileID: 1323946841}
   - component: {fileID: 1323946846}
+  - component: {fileID: 1323946849}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -555,7 +556,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1323946840}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.22, y: 1.56, z: 0.27}
+  m_LocalPosition: {x: -1.4, y: 1.9, z: 0.08}
   m_LocalScale: {x: 1, y: 2.036, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -576,6 +577,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 10
+  _punchDamage: 0
+  _enemies: []
+--- !u!136 &1323946849
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1323946840}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 2.8403184
+  m_Height: 2.8071496
+  m_Direction: 1
+  m_Center: {x: 2.3403184, y: -0.6830102, z: 0}
 --- !u!1 &1510290845
 GameObject:
   m_ObjectHideFlags: 0

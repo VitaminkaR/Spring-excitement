@@ -10,8 +10,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float _speed;
 
     // боевая система
-    [SerializeField] private ParticleSystem _attackEffect;
-    [SerializeField] private float _simpleAttackDamage;
+    [SerializeField] private float _punchDamage;
+    // враги которые находятся в радиусе действия удара
     [SerializeField] private List<Enemy> _enemies;
 
 
@@ -56,7 +56,6 @@ public class Player : MonoBehaviour
     // простая атака
     void Attack()
     {
-        _attackEffect.Play();
         for (int i = 0; i < _enemies.Count; i++)
         {
             // получение урона

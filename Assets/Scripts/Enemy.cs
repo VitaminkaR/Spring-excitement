@@ -4,15 +4,33 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private float _health;
+
+
+    // наносит урон врагу
+    public void Damage(float damage)
     {
-        
+        _health -= damage;
+        if(_health < 0)
+            Death();
     }
 
-    // Update is called once per frame
-    void Update()
+    // наносит урон врагу и отталкивает его
+    public void Damage(float damage, Vector3 force)
     {
-        
+        _health -= damage;
+        if (_health < 0)
+            Death();
+        Rigidbody rigidbody = GetComponent<Rigidbody>();
+        if(rigidbody != null)
+        {
+            rigidbody.AddForce(force);
+        }
+    }
+
+    // смерть врага
+    public void Death()
+    {
+        Destroy(gameObject);
     }
 }

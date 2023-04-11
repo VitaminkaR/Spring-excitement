@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
 
     // боевая система
     [SerializeField] private float _punchDamage;
+    [SerializeField] private float _punchForce;
     // враги которые находятся в радиусе действия удара
     [SerializeField] private List<Enemy> _enemies;
 
@@ -19,6 +20,13 @@ public class Player : MonoBehaviour
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
+    }
+
+    private void Update()
+    {
+        // простая атака
+        if (Input.GetMouseButtonDown(0))
+            Attack();
     }
 
     void FixedUpdate()
@@ -33,10 +41,6 @@ public class Player : MonoBehaviour
         Quaternion deg = Quaternion.Euler(0, Mathf.Atan2(-y, x) * Mathf.Rad2Deg, 0);
         if (x != 0 || y != 0)
             _rigidbody.MoveRotation(deg);
-
-        // простая атака
-        if (Input.GetMouseButtonDown(0))
-            Attack();
     }
 
     // смотрим какие враги находятся в зоне действия атаки
@@ -58,8 +62,16 @@ public class Player : MonoBehaviour
     {
         for (int i = 0; i < _enemies.Count; i++)
         {
+            if (_enemies[i] == null)
+            {
+                _enemies.Remove(_enemies[i]);
+                continue;
+            }
             // получение урона
-           //_enemies[i].
+            Vector3 vec = _enemies[i].transform.position - transform.position;
+            float dis = vec.magnitude;
+            Vector3 dir = vec / dis;
+            _enemies[i].Damage(_punchDamage, dir * _punchForce);
         }
     }
 }

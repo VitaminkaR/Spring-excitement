@@ -77,7 +77,7 @@ public class Player : MonoBehaviour
     // смотрим какие враги находятся в зоне действия атаки
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Enemy"))
+        if (!other.isTrigger && other.gameObject.CompareTag("Enemy"))
             _enemies.Add(other.gameObject.GetComponent<Enemy>());
     }
 

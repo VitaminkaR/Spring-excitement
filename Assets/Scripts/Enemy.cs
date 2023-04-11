@@ -1,11 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Timeline.Actions;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private float _health;
 
+    [SerializeField] private Player _player;
+    [SerializeField] private Rigidbody _rigidbody;
+
+    private void Start()
+    {
+        _rigidbody = GetComponent<Rigidbody>();
+    }
+
+    private void Update()
+    {
+        if (_player != null)
+            transform.LookAt(_player.transform.position + _player.transform.forward);
+    }
+
+    // зона просмотра врагов
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+            _player = other.gameObject.GetComponent<Player>();
+    }
 
     // наносит урон врагу
     public void Damage(float damage)

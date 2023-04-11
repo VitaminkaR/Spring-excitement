@@ -9,6 +9,8 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private Player _player;
     [SerializeField] private Rigidbody _rigidbody;
+    [SerializeField] private float _viewDistance;
+    [HideInInspector] public bool _seePlayer;
 
     private void Start()
     {
@@ -17,8 +19,26 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        if (_player != null)
+        if (_player != null && _seePlayer)
+        {
             transform.LookAt(_player.transform.position + _player.transform.forward);
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (_player != null)
+        {
+            float distance = Vector3.Distance(transform.position, _player.transform.position);
+            if (distance < _viewDistance)
+            {
+                _seePlayer = true;
+            }
+            else
+            {
+                _seePlayer = false;
+            }
+        }
     }
 
     // зона просмотра врагов
@@ -50,7 +70,7 @@ public class Enemy : MonoBehaviour
     }
 
     // смерть врага
-    public void Death()
+    private void Death()
     {
         Destroy(gameObject);
     }

@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private float _health;
 
-    [SerializeField] private Player _player;
+    [SerializeField] public Player _player;
     [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private float _viewDistance;
     [HideInInspector] public bool _seePlayer;

@@ -22,11 +22,12 @@ public class Player : MonoBehaviour
     //здоровье
     [SerializeField] private int _maxHealth;
     [SerializeField] private int _health;
+
     public int Health
     {
         set
         {
-            _health += value;
+            _health = value;
             if (_health > _maxHealth)
                 _health = _maxHealth;
             if (_health < 0)
@@ -34,6 +35,7 @@ public class Player : MonoBehaviour
         }
         get { return _health; }
     }
+
 
     private void Death()
     {

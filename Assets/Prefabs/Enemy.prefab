@@ -229,6 +229,7 @@ MonoBehaviour:
   _health: 100
   _player: {fileID: 0}
   _rigidbody: {fileID: 0}
+  _viewDistance: 25
 --- !u!135 &7221717806211042575
 SphereCollider:
   m_ObjectHideFlags: 0

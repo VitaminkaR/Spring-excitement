@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Timeline.Actions;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -16,8 +17,8 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        if(_player != null)
-            transform.LookAt(_player.transform.position);
+        if (_player != null)
+            transform.LookAt(_player.transform.position + _player.transform.forward);
     }
 
     // зона просмотра врагов

@@ -131,7 +131,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 10
   _punchDamage: 10
-  _punchForce: 150
+  _punchForce: 750
   _enemies: []
   pause: 2
 --- !u!136 &26545488246748067

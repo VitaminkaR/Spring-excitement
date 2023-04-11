@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
     {
         if (_player != null && _seePlayer)
         {
-            transform.LookAt(_player.transform.position + _player.transform.forward);
+            transform.LookAt(_player.transform.position);
         }
     }
 

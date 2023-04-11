@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -15,27 +17,46 @@ public class Player : MonoBehaviour
     // враги которые находятся в радиусе действия удара
     [SerializeField] private List<Enemy> _enemies;
     //задержка
-    [SerializeField] private float pause;
-    private float time;
+    [SerializeField] private float _pause;
+    private float _time;
+    //здоровье
+    [SerializeField] private int _maxHealth;
+    [SerializeField] private int _health;
+    public int Health
+    {
+        set
+        {
+            _health += value;
+            if (_health > _maxHealth)
+                _health = _maxHealth;
+            if (_health < 0)
+                Death();
+        }
+        get { return _health; }
+    }
 
-
+    private void Death()
+    {
+        
+    }
 
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        _health = _maxHealth;
     }
 
     private void Update()
     {
         // простая атака и задержка между ударами
-        if (Input.GetMouseButtonDown(0) && time <= 0)
+        if (Input.GetMouseButtonDown(0) && _time <= 0)
         {
             Attack();
-            time = pause;
+            _time = _pause;
         }
-        if (time > 0f)
+        if (_time > 0f)
         {
-            time -= Time.deltaTime;
+            _time -= Time.deltaTime;
         }
     }
 
@@ -65,7 +86,6 @@ public class Player : MonoBehaviour
         if (other.gameObject.CompareTag("Enemy"))
             _enemies.Remove(other.gameObject.GetComponent<Enemy>());
     }
-
 
     // простая атака
     void Attack()

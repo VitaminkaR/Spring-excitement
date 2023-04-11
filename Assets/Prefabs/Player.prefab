@@ -133,7 +133,9 @@ MonoBehaviour:
   _punchDamage: 10
   _punchForce: 750
   _enemies: []
-  pause: 2
+  _pause: 1
+  _maxHealth: 100
+  _health: 0
 --- !u!136 &26545488246748067
 CapsuleCollider:
   m_ObjectHideFlags: 0

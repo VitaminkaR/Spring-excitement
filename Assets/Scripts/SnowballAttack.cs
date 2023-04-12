@@ -19,7 +19,7 @@ public class SnowballAttack : MonoBehaviour
     {
         while (true)
         {
-            if (_enemy._seePlayer)
+            if (_enemy._isVisible)
             {
                 GameObject snowball = Instantiate(_snowballObj);
                 Vector3 postition = transform.position + new Vector3(0, 2, 0);

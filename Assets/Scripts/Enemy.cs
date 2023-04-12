@@ -1,25 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.Timeline.Actions;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private float _health;
 
     [SerializeField] public Player _player;
-    [SerializeField] private Rigidbody _rigidbody;
+    private Rigidbody _rigidbody;
+    private NavMeshAgent _navigationAgent;
+
+    // расстояние на котором игрок находится в пределах видимости
     [SerializeField] private float _viewDistance;
-    [HideInInspector] public bool _seePlayer;
+    // виден ли игрок (прямая видимость)
+    [HideInInspector] public bool _isVisible;
 
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        _navigationAgent = GetComponent<NavMeshAgent>();
     }
 
     private void Update()
     {
-        if (_player != null && _seePlayer)
+        if (_player != null && _isVisible)
         {
             transform.LookAt(_player.transform.position);
         }
@@ -29,14 +36,16 @@ public class Enemy : MonoBehaviour
     {
         if (_player != null)
         {
+            // проверка на видимость
             float distance = Vector3.Distance(transform.position, _player.transform.position);
             if (distance < _viewDistance)
-            {
-                _seePlayer = true;
-            }
+                _isVisible = true;
             else
+                _isVisible = false;
+
+            if(_isVisible)
             {
-                _seePlayer = false;
+                _navigationAgent.destination = _player.transform.position;
             }
         }
     }

@@ -13,8 +13,8 @@ public class Enemy : MonoBehaviour
     private Rigidbody _rigidbody;
     private NavMeshAgent _navigationAgent;
 
-    // расстояние на котором игрок находится в пределах видимости
-    [SerializeField] private float _viewDistance;
+    // расстояние на котором игрок находится в пределах видимости (sphere collider radius * 2)
+    private float _viewDistance;
     // виден ли игрок (прямая видимость)
     [HideInInspector] public bool _isVisible;
 
@@ -22,6 +22,7 @@ public class Enemy : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         _navigationAgent = GetComponent<NavMeshAgent>();
+        _viewDistance = GetComponent<SphereCollider>().radius * 2;
     }
 
     private void Update()
@@ -37,15 +38,20 @@ public class Enemy : MonoBehaviour
         if (_player != null)
         {
             // проверка на видимость
-            float distance = Vector3.Distance(transform.position, _player.transform.position);
+            Vector3 vec = _player.transform.position - transform.position;
+            float distance = vec.magnitude;
             if (distance < _viewDistance)
-                _isVisible = true;
-            else
-                _isVisible = false;
-
-            if(_isVisible)
             {
-                _navigationAgent.destination = _player.transform.position;
+                Vector3 dir = vec / distance;
+                RaycastHit hit;
+                Debug.DrawRay(transform.position, dir * _viewDistance, Color.red);
+                if (Physics.Raycast(transform.position, dir * _viewDistance, out hit) && hit.collider.gameObject.CompareTag("Player"))
+                    _isVisible = true;
+                else
+                    _isVisible = false;
+
+                if (_isVisible)
+                    _navigationAgent.destination = _player.transform.position;
             }
         }
     }
@@ -61,7 +67,7 @@ public class Enemy : MonoBehaviour
     public void Damage(float damage)
     {
         _health -= damage;
-        if(_health < 0)
+        if (_health < 0)
             Death();
     }
 
@@ -71,11 +77,9 @@ public class Enemy : MonoBehaviour
         _health -= damage;
         if (_health < 0)
             Death();
-        Rigidbody rigidbody = GetComponent<Rigidbody>();
-        if(rigidbody != null)
-        {
-            rigidbody.AddForce(force);
-        }
+
+        _rigidbody.AddForce(force);
+        _navigationAgent.Stop();
     }
 
     // смерть врага

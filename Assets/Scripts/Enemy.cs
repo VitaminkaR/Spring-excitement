@@ -79,7 +79,6 @@ public class Enemy : MonoBehaviour
             Death();
 
         _rigidbody.AddForce(force);
-        _navigationAgent.Stop();
     }
 
     // смерть врага

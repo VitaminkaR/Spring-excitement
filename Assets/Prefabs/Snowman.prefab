@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6425561387348938231}
   - component: {fileID: 8272330821938655662}
   - component: {fileID: 8236822603370852559}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 6228476846140732287}
   - component: {fileID: 2774771907406125994}
   - component: {fileID: 1774191033246418047}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sphere (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -182,7 +182,8 @@ GameObject:
   - component: {fileID: 8326281005054173097}
   - component: {fileID: 8326281005054173014}
   - component: {fileID: 7221717806211042575}
-  m_Layer: 0
+  - component: {fileID: 7036366910240514324}
+  m_Layer: 6
   m_Name: Snowman
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -331,3 +332,25 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!195 &7036366910240514324
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8326281005054173012}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 0.99999994
+  m_BaseOffset: 0.49999997
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4

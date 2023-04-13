@@ -10,7 +10,6 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _health;
 
     [SerializeField] public Player _player;
-    private Rigidbody _rigidbody;
     private NavMeshAgent _navigationAgent;
 
     // расстояние на котором игрок находится в пределах видимости (sphere collider radius * 2)
@@ -22,7 +21,6 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        _rigidbody = GetComponent<Rigidbody>();
         _navigationAgent = GetComponent<NavMeshAgent>();
         _viewDistance = GetComponent<SphereCollider>().radius * 2;
     }
@@ -31,7 +29,7 @@ public class Enemy : MonoBehaviour
     {
         if (_player != null && _isVisible)
         {
-            transform.LookAt(_player.transform.position);
+            transform.LookAt(new Vector3(_player.transform.position.x, transform.position.y, _player.transform.position.z));
         }
     }
 
@@ -87,8 +85,6 @@ public class Enemy : MonoBehaviour
         _health -= damage;
         if (_health < 0)
             Death();
-
-        _rigidbody.AddForce(force);
     }
 
     // смерть врага

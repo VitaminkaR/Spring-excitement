@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6425561387348938231}
   - component: {fileID: 8272330821938655662}
   - component: {fileID: 8236822603370852559}
-  m_Layer: 6
+  m_Layer: 2
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 6228476846140732287}
   - component: {fileID: 2774771907406125994}
   - component: {fileID: 1774191033246418047}
-  m_Layer: 6
+  m_Layer: 2
   m_Name: Sphere (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -183,7 +183,7 @@ GameObject:
   - component: {fileID: 8326281005054173014}
   - component: {fileID: 7221717806211042575}
   - component: {fileID: 7036366910240514324}
-  m_Layer: 6
+  m_Layer: 2
   m_Name: Snowman
   m_TagString: Enemy
   m_Icon: {fileID: 0}

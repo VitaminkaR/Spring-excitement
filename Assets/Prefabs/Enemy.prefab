@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8326281004691397063}
   - component: {fileID: 8326281004691397060}
   - component: {fileID: 8326281004691397061}
-  m_Layer: 6
+  m_Layer: 2
   m_Name: ebalo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 8326281005054173015}
   - component: {fileID: 7221717806211042575}
   - component: {fileID: 7757429643270517543}
-  m_Layer: 6
+  m_Layer: 2
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}

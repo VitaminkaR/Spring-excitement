@@ -17,6 +17,8 @@ public class Enemy : MonoBehaviour
     private float _viewDistance;
     // виден ли игрок (прямая видимость)
     [HideInInspector] public bool _isVisible;
+    // расстояние от игрока на котором будут останавливаться противники
+    [SerializeField] private float _stopDistance;
 
     private void Start()
     {
@@ -42,6 +44,7 @@ public class Enemy : MonoBehaviour
             float distance = vec.magnitude;
             if (distance < _viewDistance)
             {
+                // проверка есть ли прямая видимость
                 Vector3 dir = vec / distance;
                 RaycastHit hit;
                 Debug.DrawRay(transform.position, dir * _viewDistance, Color.red);
@@ -50,8 +53,15 @@ public class Enemy : MonoBehaviour
                 else
                     _isVisible = false;
 
+                // назначение движения к игроку
                 if (_isVisible)
                     _navigationAgent.destination = _player.transform.position;
+
+                // остановка перед игроком
+                if (distance < _stopDistance)
+                    _navigationAgent.Stop();
+                else
+                    _navigationAgent.Resume();
             }
         }
     }

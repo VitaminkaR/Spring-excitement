@@ -230,6 +230,7 @@ MonoBehaviour:
   _health: 100
   _player: {fileID: 0}
   _isVisible: 0
+  _stopDistance: 2.5
 --- !u!135 &7221717806211042575
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -257,7 +258,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 5
+  m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1

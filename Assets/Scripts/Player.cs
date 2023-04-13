@@ -13,18 +13,25 @@ public class Player : MonoBehaviour
 
     // в сугробе ли игрок
     public bool InSnowDrift;
+
     // боевая система
     [SerializeField] private float _punchDamage;
-    [SerializeField] private float _punchForce;
+    //задержка при ударе
+    [SerializeField] private float _punchReload;
+    private float _timePunchReloading;
+    // ковровый удар
+    [SerializeField] private float _carpetPunchDamage;
+    [SerializeField] private float _carpetPunchSpeed;
+    [SerializeField] private int _carpetPunchLifeTime;
+    [SerializeField] private int _carpetPunchReloadTime;
+    private bool _carpetPunchReady;
+    [SerializeField] private GameObject _carpetPunchPrefab;
+
     // враги которые находятся в радиусе действия удара
     [SerializeField] private List<Enemy> _enemies;
-    //задержка
-    [SerializeField] private float _pause;
-    private float _time;
     //здоровье
     [SerializeField] private int _maxHealth;
-    [SerializeField] private int _health;
-
+    private int _health;
     public int Health
     {
         set
@@ -39,29 +46,50 @@ public class Player : MonoBehaviour
     }
 
 
-    private void Death()
-    {
-        
-    }
 
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _health = _maxHealth;
+        StartCoroutine(CarpetRelaod());
     }
 
     private void Update()
     {
         // простая атака и задержка между ударами
-        if (Input.GetMouseButtonDown(0) && _time <= 0)
+        if (Input.GetMouseButtonDown(0) && _timePunchReloading <= 0)
         {
-            Attack();
-            _time = _pause;
+            PunchAttack();
+            _timePunchReloading = _punchReload;
         }
-        if (_time > 0f)
+        if (_timePunchReloading > 0f)
         {
-            _time -= Time.deltaTime;
+            _timePunchReloading -= Time.deltaTime;
         }
+
+        if (Input.GetKeyDown(KeyCode.Space) && _carpetPunchReady)
+        {
+            CarpetPunchAttack();
+            _carpetPunchReady = false;
+            StartCoroutine(CarpetRelaod());
+        }
+    }
+
+    IEnumerator CarpetRelaod()
+    {
+        yield return new WaitForSeconds(_carpetPunchReloadTime);
+        _carpetPunchReady = true;
+    }
+
+    private void CarpetPunchAttack()
+    {
+        GameObject carpet = Instantiate(_carpetPunchPrefab);
+        carpet.transform.position = transform.position - new Vector3(0, transform.localScale.y / 1.5f, 0);
+        Quaternion q = Quaternion.Euler(0, transform.rotation.eulerAngles.y + 90, 0);
+        carpet.transform.rotation = q;
+        carpet.GetComponent<CarpetPunch>().Speed = _carpetPunchSpeed;
+        carpet.GetComponent<CarpetPunch>().Damage = _carpetPunchDamage;
+        carpet.GetComponent<CarpetPunch>().LifeTime = _carpetPunchLifeTime;
     }
 
     void FixedUpdate()
@@ -92,7 +120,7 @@ public class Player : MonoBehaviour
     }
 
     // простая атака
-    void Attack()
+    void PunchAttack()
     {
         for (int i = 0; i < _enemies.Count; i++)
         {
@@ -102,10 +130,15 @@ public class Player : MonoBehaviour
                 continue;
             }
             // получение урона
-            Vector3 vec = _enemies[i].transform.position - transform.position;
-            float dis = vec.magnitude;
-            Vector3 dir = vec / dis;
-            _enemies[i].Damage(_punchDamage, dir * _punchForce);
+            //Vector3 vec = _enemies[i].transform.position - transform.position;
+            //float dis = vec.magnitude;
+            //Vector3 dir = vec / dis;
+            //_enemies[i].Damage(_punchDamage, dir * _punchForce);
         }
+    }
+
+    private void Death()
+    {
+
     }
 }

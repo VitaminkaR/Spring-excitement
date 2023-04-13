@@ -98,6 +98,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speedMultiplier: 4
+  _shelterSpawningChance: 25
+  _isShelter: 0
+  _shelterDamage: 10
+  _particleSystemPrefab: {fileID: 6102892044553483650, guid: 4ba80da8aeb6f894fa25d33b66e8e2ef, type: 3}
 --- !u!135 &3774955099652894350
 SphereCollider:
   m_ObjectHideFlags: 0

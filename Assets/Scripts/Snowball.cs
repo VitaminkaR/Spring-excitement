@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Snowball : MonoBehaviour
@@ -9,11 +8,15 @@ public class Snowball : MonoBehaviour
     [SerializeField] private GameObject _snowStrike;
     [HideInInspector] public Player _player;
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collider)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        // должен сталкивать только с окружение и игроком
+        if (collider.gameObject.CompareTag("Enemy"))
+            return;
+
+        if (collider.gameObject.CompareTag("Player"))
         {
-            collision.gameObject.GetComponent<Player>().Health -= _damage;
+            collider.gameObject.GetComponent<Player>().Health -= _damage;
         }
         else
         {
@@ -21,6 +24,6 @@ public class Snowball : MonoBehaviour
             snowStrike.transform.position = transform.position;
             snowStrike.GetComponent<SnowStrike>()._player = _player;
         }
-        Destroy(gameObject);
+            Destroy(gameObject);
     }
 }

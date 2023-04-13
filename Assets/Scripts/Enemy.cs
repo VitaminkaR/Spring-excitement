@@ -48,7 +48,6 @@ public class Enemy : MonoBehaviour
                 Vector3 dir = vec / distance;
                 RaycastHit hit;
                 Debug.DrawRay(transform.position, dir * _viewDistance, Color.red);
-                LayerMask mask = ~LayerMask.GetMask("Entities");
                 if (Physics.Raycast(transform.position, dir * _viewDistance, out hit) && hit.collider.gameObject.CompareTag("Player"))
                     _isVisible = true;
                 else

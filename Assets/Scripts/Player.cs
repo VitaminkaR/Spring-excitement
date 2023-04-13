@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
 {
     private Rigidbody _rigidbody;
 
-    [SerializeField] private float _speed;
+    public float Speed;
 
     // боевая система
     [SerializeField] private float _punchDamage;
@@ -66,7 +66,7 @@ public class Player : MonoBehaviour
     {
         // движение
         Vector3 m_Input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        _rigidbody.MovePosition(transform.position + m_Input * Time.deltaTime * _speed);
+        _rigidbody.MovePosition(transform.position + m_Input * Time.deltaTime * Speed);
 
         // поворот
         float x = Input.GetAxis("Horizontal");

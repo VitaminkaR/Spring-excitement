@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d77f383af2223d944accf62e7841902e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 10
+  Speed: 10
   _punchDamage: 10
   _punchForce: 750
   _enemies: []

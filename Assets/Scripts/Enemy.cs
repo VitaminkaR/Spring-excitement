@@ -61,6 +61,10 @@ public class Enemy : MonoBehaviour
                 else
                     _navigationAgent.Resume();
             }
+            else
+            {
+                _isVisible = false;
+            }
         }
     }
 

@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
 
     public float Speed;
 
+    // в сугробе ли игрок
+    public bool InSnowDrift;
     // боевая система
     [SerializeField] private float _punchDamage;
     [SerializeField] private float _punchForce;

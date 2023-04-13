@@ -114,7 +114,7 @@ GameObject:
   - component: {fileID: 7221717806211042575}
   - component: {fileID: 7757429643270517543}
   m_Layer: 2
-  m_Name: Enemy
+  m_Name: IceGolem
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

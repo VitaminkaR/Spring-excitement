@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
     // враги которые находятся в радиусе действия удара
     [SerializeField] private List<Enemy> _enemies;
     //здоровье
-    [SerializeField] private int _maxHealth;
+    public int _maxHealth;
     [SerializeField] int _health;
     public int Health
     {

@@ -19,6 +19,11 @@ public class Enemy : MonoBehaviour
     // расстояние от игрока на котором будут останавливаться противники
     [SerializeField] private float _stopDistance;
 
+    // урон от атаки ближнего боя
+    [SerializeField] private int _nearAttackDamage;
+    [SerializeField] private float _reloadNA;
+    private float _timerNA;
+
     private void Start()
     {
         _navigationAgent = GetComponent<NavMeshAgent>();
@@ -42,6 +47,18 @@ public class Enemy : MonoBehaviour
             float distance = vec.magnitude;
             if (distance < _viewDistance)
             {
+                // нанесение урона
+                if (_timerNA < 0 && distance < 2)
+                {
+                    _player.GetComponent<Player>().Health -= _nearAttackDamage;
+                    _timerNA = _reloadNA;
+                }
+                else
+                {
+                    _timerNA -= Time.deltaTime;
+                }
+                    
+
                 // проверка есть ли прямая видимость
                 Vector3 dir = vec / distance;
                 RaycastHit hit;

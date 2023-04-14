@@ -272,6 +272,8 @@ MonoBehaviour:
   _player: {fileID: 0}
   _isVisible: 0
   _stopDistance: 10
+  _nearAttackDamage: 5
+  _reloadNA: 2.5
 --- !u!114 &7400550811949178270
 MonoBehaviour:
   m_ObjectHideFlags: 0

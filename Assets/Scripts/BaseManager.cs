@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class BaseManager : MonoBehaviour
 {
-    public string CurrentLevel { get; private set; }
+    public string CurrentLevel;
 
     // сохраняет данные об игре
     public void Save()

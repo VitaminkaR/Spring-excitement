@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
     [SerializeField] private List<Enemy> _enemies;
     //здоровье
     [SerializeField] private int _maxHealth;
-    private int _health;
+    [SerializeField] int _health;
     public int Health
     {
         set

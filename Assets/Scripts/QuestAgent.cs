@@ -83,11 +83,15 @@ public class QuestAgent : MonoBehaviour
         {
             // игрок взял предмет
             List<Quest> quests = col.gameObject.GetComponent<QuestManager>().quests;
-            quests.Find((Quest q) => q.QuestName == QuestName).AdditionalQuestData = "Bringed";
+            Quest q = quests.Find((Quest q) => q.QuestName == QuestName);
+            if(q != null)
+            {
+                q.AdditionalQuestData = "Bringed";
 
-            // удалает предмет если это необходимо
-            if (_bringDeleted)
-                Destroy(gameObject);
+                // удалает предмет если это необходимо
+                if (_bringDeleted)
+                    Destroy(gameObject);
+            }
         }
     }
 }

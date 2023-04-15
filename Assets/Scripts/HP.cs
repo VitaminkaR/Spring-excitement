@@ -1,3 +1,4 @@
+using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class HP : MonoBehaviour
@@ -13,8 +14,10 @@ public class HP : MonoBehaviour
     [SerializeField] private float _returnSpeed;
     // скорость хп
     [SerializeField] private float _speed;
-    // насколько плавно будет менять направление
+    // длина линии
     [SerializeField] private float _startLength;
+    // множитель сокращение длины линии
+    [SerializeField] private float _speedLengthMultiplier;
 
     // цвета
     [SerializeField] private Color _healthyColor;
@@ -48,7 +51,7 @@ public class HP : MonoBehaviour
         {
             Vector3 dir = vec / distance;
             transform.Translate(dir * _returnSpeed * (distance / _returnDistance * 2) * Time.deltaTime);
-            _trainRenderer.time -= _returnSpeed / 8;
+            _trainRenderer.time = Mathf.Lerp(0, _trainRenderer.time, _speedLengthMultiplier);
         }
         else
         {

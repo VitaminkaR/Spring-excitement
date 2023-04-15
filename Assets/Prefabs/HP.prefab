@@ -51,8 +51,9 @@ MonoBehaviour:
   _returnSpeed: 15
   _speed: 5
   _startLength: 3
-  _healthyColor: {r: 0, g: 0, b: 0, a: 0}
-  _damagedColor: {r: 0, g: 0, b: 0, a: 0}
+  _speedLengthMultiplier: 0.5
+  _healthyColor: {r: 0, g: 1, b: 0.15713, a: 0}
+  _damagedColor: {r: 1, g: 0, b: 0, a: 0}
 --- !u!96 &5263946131374778808
 TrailRenderer:
   serializedVersion: 2

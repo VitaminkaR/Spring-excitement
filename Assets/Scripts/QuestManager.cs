@@ -8,12 +8,12 @@ public class QuestManager : MonoBehaviour
     private Player _player;
 
     // список всех квестов
-    public List<Quest> quests;
+    public List<Quest> Quests;
 
     private void Start()
     {
         _player = GetComponent<Player>();
-        quests = new List<Quest>();
+        Quests = new List<Quest>();
     }
 
     public void RewardIpaitArtefact()

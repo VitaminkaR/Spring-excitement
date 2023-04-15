@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class Quest
 {
     public string QuestName;
+    public string QuestDescription;
     public bool IsCompleted;
     public UnityEvent QuestRewardMethod;
     public string AdditionalQuestData;

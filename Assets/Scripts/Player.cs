@@ -44,6 +44,8 @@ public class Player : MonoBehaviour
         }
         get { return _health; }
     }
+    // скорость восстановления здоровья
+    [SerializeField] private int _healthRegenSpeed;
 
 
 
@@ -51,7 +53,8 @@ public class Player : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         _health = _maxHealth;
-        StartCoroutine(CarpetRelaod());
+        StartCoroutine(CarpetReload());
+        StartCoroutine(HealthRegen());
     }
 
     private void Update()
@@ -71,25 +74,8 @@ public class Player : MonoBehaviour
         {
             CarpetPunchAttack();
             _carpetPunchReady = false;
-            StartCoroutine(CarpetRelaod());
+            StartCoroutine(CarpetReload());
         }
-    }
-
-    IEnumerator CarpetRelaod()
-    {
-        yield return new WaitForSeconds(_carpetPunchReloadTime);
-        _carpetPunchReady = true;
-    }
-
-    private void CarpetPunchAttack()
-    {
-        GameObject carpet = Instantiate(_carpetPunchPrefab);
-        carpet.transform.position = transform.position - new Vector3(0, transform.localScale.y / 1.5f, 0);
-        Quaternion q = Quaternion.Euler(0, transform.rotation.eulerAngles.y + 90, 0);
-        carpet.transform.rotation = q;
-        carpet.GetComponent<CarpetPunch>().Speed = _carpetPunchSpeed;
-        carpet.GetComponent<CarpetPunch>().Damage = _carpetPunchDamage;
-        carpet.GetComponent<CarpetPunch>().LifeTime = _carpetPunchLifeTime;
     }
 
     void FixedUpdate()
@@ -119,6 +105,23 @@ public class Player : MonoBehaviour
             _enemies.Remove(other.gameObject.GetComponent<Enemy>());
     }
 
+    IEnumerator CarpetReload()
+    {
+        yield return new WaitForSeconds(_carpetPunchReloadTime);
+        _carpetPunchReady = true;
+    }
+
+    private void CarpetPunchAttack()
+    {
+        GameObject carpet = Instantiate(_carpetPunchPrefab);
+        carpet.transform.position = transform.position - new Vector3(0, transform.localScale.y / 1.5f, 0);
+        Quaternion q = Quaternion.Euler(0, transform.rotation.eulerAngles.y + 90, 0);
+        carpet.transform.rotation = q;
+        carpet.GetComponent<CarpetPunch>().Speed = _carpetPunchSpeed;
+        carpet.GetComponent<CarpetPunch>().Damage = _carpetPunchDamage;
+        carpet.GetComponent<CarpetPunch>().LifeTime = _carpetPunchLifeTime;
+    }
+
     // простая атака
     void PunchAttack()
     {
@@ -129,6 +132,8 @@ public class Player : MonoBehaviour
                 _enemies.Remove(_enemies[i]);
                 continue;
             }
+            else
+                _enemies[i].Damage(_punchDamage);
             // получение урона
             //Vector3 vec = _enemies[i].transform.position - transform.position;
             //float dis = vec.magnitude;
@@ -140,5 +145,14 @@ public class Player : MonoBehaviour
     private void Death()
     {
 
+    }
+
+    IEnumerator HealthRegen()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(_healthRegenSpeed);
+            Health += 1;
+        }
     }
 }

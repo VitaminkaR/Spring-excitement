@@ -100,14 +100,6 @@ public class Enemy : MonoBehaviour
             Death();
     }
 
-    // наносит урон врагу и отталкивает его
-    public void Damage(float damage, Vector3 force)
-    {
-        _health -= damage;
-        if (_health < 0)
-            Death();
-    }
-
     // смерть врага
     private void Death()
     {

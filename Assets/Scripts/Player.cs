@@ -29,6 +29,11 @@ public class Player : MonoBehaviour
     [SerializeField] private int _carpetPunchReloadTime;
     private bool _carpetPunchReady;
     [SerializeField] private GameObject _carpetPunchPrefab;
+    // супер молниеносный удра
+    [SerializeField] private int _lightningDamage;
+    [SerializeField] private int _lightningReloadTime;
+    private bool _lightningReady;
+    [SerializeField] private GameObject _cloudPrefab;
 
     // враги которые находятся в радиусе действия удара
     [SerializeField] private List<Enemy> _enemies;
@@ -58,6 +63,7 @@ public class Player : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _health = _maxHealth;
         StartCoroutine(CarpetReload());
+        StartCoroutine(LightningReload());
         StartCoroutine(HealthRegen());
     }
 
@@ -81,9 +87,15 @@ public class Player : MonoBehaviour
             StartCoroutine(CarpetReload());
         }
 
+        if (Input.GetKeyDown(KeyCode.Q) && _lightningReady)
+        {
+            LightningAttack();
+            _lightningReady = false;
+            StartCoroutine(LightningReload());
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape))
             _pauseUI.SetActive(!_pauseUI.activeSelf);
-           
     }
 
     void FixedUpdate()
@@ -151,6 +163,19 @@ public class Player : MonoBehaviour
             //Vector3 dir = vec / dis;
             //_enemies[i].Damage(_punchDamage, dir * _punchForce);
         }
+    }
+
+    IEnumerator LightningReload()
+    {
+        yield return new WaitForSeconds(_lightningReloadTime);
+        _lightningReady = true;
+    }
+
+    private void LightningAttack()
+    {
+        GameObject cloud = Instantiate(_cloudPrefab);
+        cloud.transform.position = transform.position +  new Vector3(0, 10, 0);
+        cloud.GetComponent<Cloud>().Damage = _lightningDamage;
     }
 
     private void Death()

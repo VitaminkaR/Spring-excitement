@@ -101,7 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e628f71e25ebcf54987c99eaf4aec496, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quests: []
+  Quests: []
 --- !u!65 &26545488246748056
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -144,6 +144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 10
+  IsQuestChooseMenu: 0
   InSnowDrift: 0
   _punchDamage: 10
   _punchReload: 0.5
@@ -152,10 +153,14 @@ MonoBehaviour:
   _carpetPunchLifeTime: 2
   _carpetPunchReloadTime: 5
   _carpetPunchPrefab: {fileID: 8683881097108754916, guid: 1b1d21c5703b2324e8476c591b4c549b, type: 3}
+  _lightningDamage: 90
+  _lightningReloadTime: 5
+  _cloudPrefab: {fileID: 1177218036387313896, guid: df253192e2217ef448e7199c388cddea, type: 3}
   _enemies: []
   _maxHealth: 100
   _health: 0
   _healthRegenSpeed: 5
+  _pauseUI: {fileID: 0}
 --- !u!136 &26545488246748067
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
@@ -10,6 +11,8 @@ public class Player : MonoBehaviour
     private Rigidbody _rigidbody;
 
     public float Speed;
+    // выбирает ли игрок квест
+    [HideInInspector] public bool IsQuestChooseMenu;
 
     // в сугробе ли игрок
     public bool InSnowDrift;
@@ -47,7 +50,8 @@ public class Player : MonoBehaviour
     // скорость восстановления здоровья
     [SerializeField] private int _healthRegenSpeed;
 
-
+    // UI
+    [SerializeField] private GameObject _pauseUI;
 
     void Start()
     {
@@ -76,13 +80,20 @@ public class Player : MonoBehaviour
             _carpetPunchReady = false;
             StartCoroutine(CarpetReload());
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+            _pauseUI.SetActive(!_pauseUI.activeSelf);
+           
     }
 
     void FixedUpdate()
     {
-        // движение
-        Vector3 m_Input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        _rigidbody.MovePosition(transform.position + m_Input * Time.deltaTime * Speed);
+        if(!IsQuestChooseMenu)
+        {
+            // движение
+            Vector3 m_Input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            _rigidbody.MovePosition(transform.position + m_Input * Time.deltaTime * Speed);
+        }
 
         // поворот
         float x = Input.GetAxis("Horizontal");
@@ -154,5 +165,10 @@ public class Player : MonoBehaviour
             yield return new WaitForSeconds(_healthRegenSpeed);
             Health += 1;
         }
+    }
+
+    public void ExitMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }

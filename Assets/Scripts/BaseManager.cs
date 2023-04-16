@@ -42,13 +42,6 @@ public class BaseManager : MonoBehaviour
         if(name != "MainMenu")
             CurrentLevel = name;
     }
-
-    // пока дебаг
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-            LoadLevel("MainMenu");
-    }
 }
 
 // класс хранящий сохраняемую инфу

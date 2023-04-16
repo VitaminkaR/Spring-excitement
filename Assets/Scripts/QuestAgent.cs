@@ -15,6 +15,7 @@ public class QuestAgent : MonoBehaviour
     }
 
     private QuestManager _questManager;
+    private Player _player;
 
     // тип агента
     [SerializeField] private QuestAgentType _questAgentType;
@@ -54,13 +55,18 @@ public class QuestAgent : MonoBehaviour
             // если уже есть этот квест то еще раз его не даем
             if (currentQuest == null)
             {
-                // UI
-                _uiQuest.SetActive(true);
-                _uiQuest.transform.GetChild(2).gameObject.GetComponent<TextMeshProUGUI>().text = QuestName;
-                _uiQuest.transform.GetChild(3).gameObject.GetComponent<TextMeshProUGUI>().text = QuestDescription;
+                if(!_uiQuest.activeSelf)
+                {
+                    _player = col.gameObject.GetComponent<Player>();
+                    _player.IsQuestChooseMenu = true;
+                    // UI
+                    _uiQuest.SetActive(true);
+                    _uiQuest.transform.GetChild(2).gameObject.GetComponent<TextMeshProUGUI>().text = QuestName;
+                    _uiQuest.transform.GetChild(3).gameObject.GetComponent<TextMeshProUGUI>().text = QuestDescription;
 
-                _uiQuest.transform.GetChild(4).gameObject.GetComponent<Button>().onClick.AddListener(Accept);
-                _uiQuest.transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(Dismiss);
+                    _uiQuest.transform.GetChild(4).gameObject.GetComponent<Button>().onClick.AddListener(Accept);
+                    _uiQuest.transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(Dismiss);
+                }
             }
             else
             {
@@ -91,6 +97,7 @@ public class QuestAgent : MonoBehaviour
 
     public void Dismiss()
     {
+        _player.IsQuestChooseMenu = false;
         _uiQuest.transform.GetChild(4).gameObject.GetComponent<Button>().onClick.RemoveListener(Accept);
         _uiQuest.transform.GetChild(5).gameObject.GetComponent<Button>().onClick.RemoveListener(Dismiss);
         _uiQuest.SetActive(false);

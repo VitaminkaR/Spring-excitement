@@ -13,6 +13,10 @@ public class Player : MonoBehaviour
     public float Speed;
     // выбирает ли игрок квест
     [HideInInspector] public bool IsQuestChooseMenu;
+    // дэш способность
+    [SerializeField] private float _dashForce;
+    [SerializeField] private float _dashReloadTime;
+    private bool _dashReady;
 
     // в сугробе ли игрок
     public bool InSnowDrift;
@@ -65,6 +69,7 @@ public class Player : MonoBehaviour
         StartCoroutine(CarpetReload());
         StartCoroutine(LightningReload());
         StartCoroutine(HealthRegen());
+        StartCoroutine(DashReload());
     }
 
     private void Update()
@@ -94,6 +99,13 @@ public class Player : MonoBehaviour
             StartCoroutine(LightningReload());
         }
 
+        if (Input.GetKeyDown(KeyCode.LeftShift) && _dashReady)
+        {
+            Dash();
+            _dashReady = false;
+            StartCoroutine(DashReload());
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape))
             _pauseUI.SetActive(!_pauseUI.activeSelf);
     }
@@ -110,7 +122,7 @@ public class Player : MonoBehaviour
         // поворот
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
-        Quaternion deg = Quaternion.Euler(0, Mathf.Atan2(-y, x) * Mathf.Rad2Deg, 0);
+        Quaternion deg = Quaternion.Euler(0, Mathf.Atan2(x, y) * Mathf.Rad2Deg, 0);
         if (x != 0 || y != 0)
             _rigidbody.MoveRotation(deg);
     }
@@ -128,6 +140,22 @@ public class Player : MonoBehaviour
             _enemies.Remove(other.gameObject.GetComponent<Enemy>());
     }
 
+    // дэш
+    private void Dash()
+    {
+        Debug.Log(transform.forward);
+        _rigidbody.AddForce(transform.forward * _dashForce, ForceMode.Impulse);
+    }
+
+    IEnumerator DashReload()
+    {
+        yield return new WaitForSeconds(_dashReloadTime);
+        _dashReady = true;
+    }
+
+
+    // АТАКИ
+
     IEnumerator CarpetReload()
     {
         yield return new WaitForSeconds(_carpetPunchReloadTime);
@@ -138,7 +166,7 @@ public class Player : MonoBehaviour
     {
         GameObject carpet = Instantiate(_carpetPunchPrefab);
         carpet.transform.position = transform.position - new Vector3(0, transform.localScale.y / 1.5f, 0);
-        Quaternion q = Quaternion.Euler(0, transform.rotation.eulerAngles.y + 90, 0);
+        Quaternion q = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
         carpet.transform.rotation = q;
         carpet.GetComponent<CarpetPunch>().Speed = _carpetPunchSpeed;
         carpet.GetComponent<CarpetPunch>().Damage = _carpetPunchDamage;
@@ -178,11 +206,7 @@ public class Player : MonoBehaviour
         cloud.GetComponent<Cloud>().Damage = _lightningDamage;
     }
 
-    private void Death()
-    {
-
-    }
-
+    // реген хп
     IEnumerator HealthRegen()
     {
         while (true)
@@ -191,6 +215,13 @@ public class Player : MonoBehaviour
             Health += 1;
         }
     }
+
+    private void Death()
+    {
+
+    }
+
+
 
     public void ExitMainMenu()
     {

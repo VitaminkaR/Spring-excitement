@@ -157,11 +157,11 @@ public class Player : MonoBehaviour
             }
             else
                 _enemies[i].Damage(_punchDamage);
-            // получение урона
-            //Vector3 vec = _enemies[i].transform.position - transform.position;
-            //float dis = vec.magnitude;
-            //Vector3 dir = vec / dis;
-            //_enemies[i].Damage(_punchDamage, dir * _punchForce);
+            // нанесение урона врагу
+            Vector3 vec = _enemies[i].transform.position - transform.position;
+            float dis = vec.magnitude;
+            Vector3 dir = vec / dis;
+            _enemies[i].Damage(_punchDamage, dir * 10);
         }
     }
 

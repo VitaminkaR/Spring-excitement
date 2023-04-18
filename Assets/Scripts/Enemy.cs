@@ -116,6 +116,8 @@ public class Enemy : MonoBehaviour
         if (_health <= 0)
             Death();
 
+        if (IsStunned)
+            StopCoroutine(Stun(force));
         StartCoroutine(Stun(force));
     }
 

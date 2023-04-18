@@ -107,7 +107,10 @@ public class Player : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
+        {
             _pauseUI.SetActive(!_pauseUI.activeSelf);
+            Time.timeScale = _pauseUI.active ? 0 : 1;
+        }
     }
 
     void FixedUpdate()
@@ -143,7 +146,6 @@ public class Player : MonoBehaviour
     // äýø
     private void Dash()
     {
-        Debug.Log(transform.forward);
         _rigidbody.AddForce(transform.forward * _dashForce, ForceMode.Impulse);
     }
 

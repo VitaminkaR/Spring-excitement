@@ -215,6 +215,7 @@ MonoBehaviour:
   _player: {fileID: 0}
   _isVisible: 0
   _stopDistance: 2.5
+  _stunTime: 2.5
   _nearAttackDamage: 10
   _reloadNA: 1.5
 --- !u!135 &7221717806211042575

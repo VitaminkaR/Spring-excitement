@@ -155,7 +155,7 @@ MonoBehaviour:
   _carpetPunchLifeTime: 2
   _carpetPunchReloadTime: 5
   _carpetPunchPrefab: {fileID: 8683881097108754916, guid: 1b1d21c5703b2324e8476c591b4c549b, type: 3}
-  _lightningDamage: 90
+  _lightningDamage: 100
   _lightningReloadTime: 5
   _cloudPrefab: {fileID: 1177218036387313896, guid: df253192e2217ef448e7199c388cddea, type: 3}
   _enemies: []
@@ -188,7 +188,6 @@ GameObject:
   - component: {fileID: 26545488473464570}
   - component: {fileID: 26545488473464569}
   - component: {fileID: 26545488473464568}
-  - component: {fileID: 26545488473464571}
   m_Layer: 6
   m_Name: ebalo
   m_TagString: Untagged
@@ -261,16 +260,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &26545488473464571
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 26545488473464565}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}

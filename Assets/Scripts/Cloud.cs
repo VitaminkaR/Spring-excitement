@@ -30,7 +30,7 @@ public class Cloud : MonoBehaviour
         Collider[] colliders = Physics.OverlapSphere(transform.position, 50, mask);
         for (int i = 0; i < colliders.Length; i++)
         {
-            if (colliders[i].gameObject.CompareTag("Enemy") && !colliders[i].isTrigger)
+            if (colliders[i] != null && !colliders[i].isTrigger && colliders[i].gameObject.CompareTag("Enemy"))
             {
                 GameObject lightning = Instantiate(_lightning);
                 lightning.transform.position = transform.position;

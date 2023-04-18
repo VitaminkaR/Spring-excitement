@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4706789763523917430}
   - component: {fileID: 9075719694128963948}
   - component: {fileID: 5732944011272353717}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Health Crystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}

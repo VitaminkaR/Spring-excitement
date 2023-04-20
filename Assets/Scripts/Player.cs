@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -118,8 +119,16 @@ public class Player : MonoBehaviour
         if(!IsQuestChooseMenu)
         {
             // движение
-            Vector3 m_Input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-            _rigidbody.MovePosition(transform.position + m_Input * Time.deltaTime * Speed);
+            Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            if(Math.Abs(_rigidbody.velocity.x) + Math.Abs(_rigidbody.velocity.z) < Speed)
+            {
+                _rigidbody.AddForce(input * 150);
+            }
+            // торможение игрока
+            if(Math.Abs(_rigidbody.velocity.x) + Math.Abs(_rigidbody.velocity.z) > 0)
+            {
+                _rigidbody.AddForce(-_rigidbody.velocity.normalized * (Math.Abs(_rigidbody.velocity.x) + Math.Abs(_rigidbody.velocity.z) + 5));
+            }
         }
 
         // поворот

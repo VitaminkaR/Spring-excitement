@@ -122,7 +122,7 @@ public class Player : MonoBehaviour
             Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
             if(Math.Abs(_rigidbody.velocity.x) + Math.Abs(_rigidbody.velocity.z) < Speed)
             {
-                _rigidbody.AddForce(input * 500);
+                _rigidbody.AddForce(input * 250);
             }
         }
 

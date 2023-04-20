@@ -122,12 +122,7 @@ public class Player : MonoBehaviour
             Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
             if(Math.Abs(_rigidbody.velocity.x) + Math.Abs(_rigidbody.velocity.z) < Speed)
             {
-                _rigidbody.AddForce(input * 150);
-            }
-            // торможение игрока
-            if(Math.Abs(_rigidbody.velocity.x) + Math.Abs(_rigidbody.velocity.z) > 0)
-            {
-                _rigidbody.AddForce(-_rigidbody.velocity.normalized * (Math.Abs(_rigidbody.velocity.x) + Math.Abs(_rigidbody.velocity.z) + 5));
+                _rigidbody.AddForce(input * 500);
             }
         }
 

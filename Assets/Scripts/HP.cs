@@ -1,4 +1,5 @@
 using TMPro.EditorUtilities;
+using UnityEditor.Timeline.Actions;
 using UnityEngine;
 
 public class HP : MonoBehaviour
@@ -34,19 +35,26 @@ public class HP : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // регулирование высоты
+        transform.position = new Vector3(transform.position.x, _player.transform.position.y + 4, transform.position.z);
+        
+        // регулирования цвета и длины хп
         _trainRenderer.time = _startLength / _player._maxHealth * _player.Health;
         Color color = Color.Lerp(_damagedColor, _healthyColor, (float)_player.Health / (float)_player._maxHealth);
         _trainRenderer.material.color = color;
         _light.color = color;
 
+        // математика
         Vector3 vec = new Vector3(_player.transform.position.x - transform.position.x, 0, _player.transform.position.z - transform.position.z);
         float distance = vec.magnitude;
 
+        // контроль возврата
         if (distance > _returnDistance)
             _isReturning = true;
         if (distance < 0.5f)
             _isReturning = false;
 
+        // движение
         if (_isReturning)
         {
             Vector3 dir = vec / distance;

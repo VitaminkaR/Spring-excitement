@@ -12,8 +12,8 @@ public class HealthCrystal : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
             collision.gameObject.GetComponent<Player>().Health += _health;
         StartCoroutine(Effect());
+        Destroy(transform.GetChild(0).gameObject);
         Destroy(GetComponent<CapsuleCollider>());
-        Destroy(GetComponent<MeshRenderer>());
     }
 
     IEnumerator Effect()

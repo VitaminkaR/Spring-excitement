@@ -9,8 +9,8 @@ public class MagicGem : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
             collision.gameObject.GetComponent<Player>().Gems += 1;
         StartCoroutine(Effect());
+        Destroy(transform.GetChild(0).gameObject);
         Destroy(GetComponent<CapsuleCollider>());
-        Destroy(GetComponent<MeshRenderer>());
     }
 
     IEnumerator Effect()

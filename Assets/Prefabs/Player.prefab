@@ -110,12 +110,12 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 26545488246748058}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.76
-  m_Height: 1.21
+  m_Radius: 2.4446797
+  m_Height: 2.4014535
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: -1.8571435e-13, y: 0, z: 3.0085607}
 --- !u!54 &26545488246748059
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -146,7 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 10
   IsQuestChooseMenu: 0
-  _dashForce: 50
+  _dashForce: 100
   _dashReloadTime: 2.5
   Gems: 0
   InSnowDrift: 0

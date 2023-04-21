@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 26545488246748062}
   - component: {fileID: 26545488246748057}
   - component: {fileID: 4790029561561142666}
-  - component: {fileID: 26545488246748056}
+  - component: {fileID: 4959720230677139147}
   - component: {fileID: 26545488246748059}
   - component: {fileID: 26545488246748060}
   - component: {fileID: 26545488246748067}
@@ -102,18 +102,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Quests: []
---- !u!65 &26545488246748056
-BoxCollider:
+--- !u!136 &4959720230677139147
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 26545488246748058}
-  m_Material: {fileID: 13400000, guid: 97c8a2af0bc0b1840b2319f614779cab, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Radius: 0.76
+  m_Height: 1.21
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &26545488246748059
 Rigidbody:

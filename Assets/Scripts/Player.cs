@@ -116,15 +116,14 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(!IsQuestChooseMenu)
+        // движение
+        Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        if (Math.Abs(_rigidbody.velocity.x) + Math.Abs(_rigidbody.velocity.z) < Speed)
         {
-            // движение
-            Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-            if(Math.Abs(_rigidbody.velocity.x) + Math.Abs(_rigidbody.velocity.z) < Speed)
-            {
-                _rigidbody.AddForce(input * 250);
-            }
+            _rigidbody.AddForce(input * Speed, ForceMode.Impulse);
         }
+        _rigidbody.AddForce(_rigidbody.velocity.normalized * (-Speed / 2), ForceMode.Impulse);
+
 
         // поворот
         float x = Input.GetAxis("Horizontal");
@@ -208,7 +207,7 @@ public class Player : MonoBehaviour
     private void LightningAttack()
     {
         GameObject cloud = Instantiate(_cloudPrefab);
-        cloud.transform.position = transform.position +  new Vector3(0, 10, 0);
+        cloud.transform.position = transform.position + new Vector3(0, 10, 0);
         cloud.GetComponent<Cloud>().Damage = _lightningDamage;
     }
 

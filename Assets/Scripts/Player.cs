@@ -200,6 +200,7 @@ public class Player : MonoBehaviour
                 Vector3 dir = vec / dis;
                 _enemies[i].Damage(_punchDamage, dir * 10);
 
+
                 // Вампирска способность
                 if (Gems > 20)
                     Health++;
@@ -239,6 +240,7 @@ public class Player : MonoBehaviour
 
     public void ExitMainMenu()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene("MainMenu");
     }
 }

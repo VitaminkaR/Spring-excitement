@@ -88,21 +88,23 @@ public class Player : MonoBehaviour
             _timePunchReloading -= Time.deltaTime;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && _carpetPunchReady)
+        if (Input.GetKeyDown(KeyCode.Space) && _carpetPunchReady && Gems >= 10)
         {
+            Gems -= 1;
             CarpetPunchAttack();
             _carpetPunchReady = false;
             StartCoroutine(CarpetReload());
         }
 
-        if (Input.GetKeyDown(KeyCode.Q) && _lightningReady)
+        if (Input.GetKeyDown(KeyCode.Q) && _lightningReady && Gems >= 15)
         {
+            Gems -= 3;
             LightningAttack();
             _lightningReady = false;
             StartCoroutine(LightningReload());
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && _dashReady)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && _dashReady && Gems >= 5)
         {
             Dash();
             _dashReady = false;
@@ -191,12 +193,17 @@ public class Player : MonoBehaviour
                 continue;
             }
             else
-                _enemies[i].Damage(_punchDamage);
-            // нанесение урона врагу
-            Vector3 vec = _enemies[i].transform.position - transform.position;
-            float dis = vec.magnitude;
-            Vector3 dir = vec / dis;
-            _enemies[i].Damage(_punchDamage, dir * 10);
+            {
+                // нанесение урона врагу
+                Vector3 vec = _enemies[i].transform.position - transform.position;
+                float dis = vec.magnitude;
+                Vector3 dir = vec / dis;
+                _enemies[i].Damage(_punchDamage, dir * 10);
+
+                // Вампирска способность
+                if (Gems > 20)
+                    Health++;
+            }
         }
     }
 

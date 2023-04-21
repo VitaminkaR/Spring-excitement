@@ -19,6 +19,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float _dashReloadTime;
     private bool _dashReady;
 
+    public int Gems;
+
     // в сугробе ли игрок
     public bool InSnowDrift;
 

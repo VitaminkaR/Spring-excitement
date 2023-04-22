@@ -62,9 +62,6 @@ public class Player : MonoBehaviour
     // скорость восстановления здоровья
     [SerializeField] private int _healthRegenSpeed;
 
-    // UI
-    [SerializeField] private GameObject _pauseUI;
-
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -109,12 +106,6 @@ public class Player : MonoBehaviour
             Dash();
             _dashReady = false;
             StartCoroutine(DashReload());
-        }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            _pauseUI.SetActive(!_pauseUI.activeSelf);
-            Time.timeScale = _pauseUI.active ? 0 : 1;
         }
     }
 
@@ -236,11 +227,4 @@ public class Player : MonoBehaviour
 
     }
 
-
-
-    public void ExitMainMenu()
-    {
-        Time.timeScale = 1;
-        SceneManager.LoadScene("MainMenu");
-    }
 }

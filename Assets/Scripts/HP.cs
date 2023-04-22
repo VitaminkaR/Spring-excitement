@@ -7,7 +7,7 @@ public class HP : MonoBehaviour
     private TrailRenderer _trainRenderer;
     private Light _light;
 
-    [SerializeField] private Player _player;
+    private Player _player;
 
     // если хп пролетит дальше этой дистанции, то оно начнет возвращаться к игроку
     [SerializeField] private float _returnDistance;
@@ -31,6 +31,7 @@ public class HP : MonoBehaviour
     {
         _trainRenderer = GetComponent<TrailRenderer>();
         _light = GetComponent<Light>();
+        _player = BaseManager.Manager.Player;
     }
 
     private void FixedUpdate()

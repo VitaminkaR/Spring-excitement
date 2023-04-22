@@ -6,28 +6,32 @@ using UnityEngine;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] private GameObject _baseManagerPrefab;
-    static public BaseManager Manager;
 
     private void Start()
     {
         // загружает единожды менеджер и производит первую загрузку из сохранения
-        if (Manager == null)
+        if (BaseManager.Manager == null)
         {
-            DontDestroyOnLoad(Instantiate(_baseManagerPrefab));
-            Manager = FindObjectOfType<BaseManager>();
-            Manager.Load();
-        }  
+            GameObject _object = Instantiate(_baseManagerPrefab);
+            DontDestroyOnLoad(_object);
+            BaseManager.Init(_object);
+            BaseManager.Manager = FindObjectOfType<BaseManager>();
+            BaseManager.Manager.Load();
+        }
     }
 
     public void Play()
     {
-        Manager.LoadLevel(Manager.CurrentLevel);
+        BaseManager.Manager.PreLoadLevel();
     }
 
     public void Exit()
     {
-        // сохранение
-        Manager.Save();
+#if UNITY_STANDALONE
         Application.Quit();
+#endif
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
     }
 }

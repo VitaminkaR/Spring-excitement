@@ -44,3 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb55e7a8260656a4b992871c7227f795, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentLevelCoords: {x: 0, y: 0}
+  Player: {fileID: 0}
+  _playerPrefab: {fileID: 26545488246748058, guid: ac99b29e63f934946a7b03add27c11d3, type: 3}
+  MapPartSize: {x: 256, y: 256}
+  MapPartLoadOffset: {x: 32, y: 32}

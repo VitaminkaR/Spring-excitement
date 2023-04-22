@@ -98,26 +98,24 @@ public class BaseManager : MonoBehaviour
             if (Player.transform.position.x > MapPartSize.x * (CurrentLevelCoords.x + 1) - MapPartLoadOffset.x
             && !SceneManager.GetSceneByName("MapPart " + (CurrentLevelCoords.x + 1) + " " + CurrentLevelCoords.y).isLoaded)
             {
-                Debug.Log("LOAD" + new Vector2(CurrentLevelCoords.x + 1, CurrentLevelCoords.y).ToString());
-                yield return AsyncLoadMapPart(new Vector2(CurrentLevelCoords.x + 1, CurrentLevelCoords.y));
+                yield return AsyncLoadMapPart(new Vector2Int(CurrentLevelCoords.x + 1, CurrentLevelCoords.y));
                 //yield return AsyncUnLoadMapPart(new Vector2(CurrentLevelCoords.x - 1, CurrentLevelCoords.y));
             }
-            if (Player.transform.position.x < MapPartSize.x * CurrentLevelCoords.x + MapPartLoadOffset.x
-                && SceneManager.GetSceneByName("MapPart " + (CurrentLevelCoords.x - 1) + " " + CurrentLevelCoords.y) == null)
-            {
-                Debug.Log("LOAD" + new Vector2(CurrentLevelCoords.x - 1, CurrentLevelCoords.y).ToString());
-                yield return AsyncLoadMapPart(new Vector2(CurrentLevelCoords.x - 1, CurrentLevelCoords.y));
-                //yield return AsyncUnLoadMapPart(new Vector2(CurrentLevelCoords.x + 1, CurrentLevelCoords.y));
-            }
+            //if (Player.transform.position.x < MapPartSize.x * CurrentLevelCoords.x + MapPartLoadOffset.x
+            //    && SceneManager.GetSceneByName("MapPart " + (CurrentLevelCoords.x - 1) + " " + CurrentLevelCoords.y) == null)
+            //{
+            //    yield return AsyncLoadMapPart(new Vector2(CurrentLevelCoords.x - 1, CurrentLevelCoords.y));
+            //    yield return AsyncUnLoadMapPart(new Vector2(CurrentLevelCoords.x + 1, CurrentLevelCoords.y));
+            //}
 
             yield return new WaitForSeconds(1);
         }
     }
 
     // асинхронно загружает часть карты
-    IEnumerator AsyncLoadMapPart(Vector2 coords)
+    IEnumerator AsyncLoadMapPart(Vector2Int coords)
     {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("MapPart " + CurrentLevelCoords.x + " " + CurrentLevelCoords.y);
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("MapPart " + coords.x + " " + coords.y);
 
         while (!asyncLoad.isDone)
         {

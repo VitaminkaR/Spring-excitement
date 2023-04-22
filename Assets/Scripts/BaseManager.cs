@@ -13,6 +13,8 @@ public class BaseManager : MonoBehaviour
     public Player Player;
 
     [SerializeField] private GameObject _playerPrefab;
+    [SerializeField] private GameObject _hpPrefab;
+    [SerializeField] private GameObject _canvasPrefab;
 
     // размер частей карты
     public Vector2 MapPartSize;
@@ -39,6 +41,9 @@ public class BaseManager : MonoBehaviour
         Manager.Player = Instantiate(Manager._playerPrefab).GetComponent<Player>();
         DontDestroyOnLoad(Manager.Player.gameObject);
         Manager.Player.gameObject.SetActive(false);
+
+        DontDestroyOnLoad(Instantiate(Manager._hpPrefab));
+        DontDestroyOnLoad(Instantiate(Manager._canvasPrefab));
     }
 
     // сохраняет данные об игре
@@ -87,6 +92,11 @@ public class BaseManager : MonoBehaviour
     {
         Player.gameObject.SetActive(true);
         SceneManager.LoadScene("MapPart " + CurrentLevelCoords.x + " " + CurrentLevelCoords.y);
+        StartCoroutine(AsyncLoadMapPart(new Vector2Int(CurrentLevelCoords.x + 1, CurrentLevelCoords.y)));
+        StartCoroutine(AsyncLoadMapPart(new Vector2Int(CurrentLevelCoords.x - 1, CurrentLevelCoords.y)));
+        StartCoroutine(AsyncLoadMapPart(new Vector2Int(CurrentLevelCoords.x, CurrentLevelCoords.y + 1)));
+        StartCoroutine(AsyncLoadMapPart(new Vector2Int(CurrentLevelCoords.x, CurrentLevelCoords.y - 1)));
+
         StartCoroutine(MapLoader());
     }
 
@@ -95,18 +105,32 @@ public class BaseManager : MonoBehaviour
     {
         while (true)
         {
+            Debug.Log(MapPartSize.x * (CurrentLevelCoords.x + 1) - MapPartLoadOffset.x);
             if (Player.transform.position.x > MapPartSize.x * (CurrentLevelCoords.x + 1) - MapPartLoadOffset.x
             && !SceneManager.GetSceneByName("MapPart " + (CurrentLevelCoords.x + 1) + " " + CurrentLevelCoords.y).isLoaded)
             {
                 yield return AsyncLoadMapPart(new Vector2Int(CurrentLevelCoords.x + 1, CurrentLevelCoords.y));
-                //yield return AsyncUnLoadMapPart(new Vector2(CurrentLevelCoords.x - 1, CurrentLevelCoords.y));
+                yield return AsyncUnLoadMapPart(new Vector2(CurrentLevelCoords.x - 1, CurrentLevelCoords.y));
             }
-            //if (Player.transform.position.x < MapPartSize.x * CurrentLevelCoords.x + MapPartLoadOffset.x
-            //    && SceneManager.GetSceneByName("MapPart " + (CurrentLevelCoords.x - 1) + " " + CurrentLevelCoords.y) == null)
-            //{
-            //    yield return AsyncLoadMapPart(new Vector2(CurrentLevelCoords.x - 1, CurrentLevelCoords.y));
-            //    yield return AsyncUnLoadMapPart(new Vector2(CurrentLevelCoords.x + 1, CurrentLevelCoords.y));
-            //}
+            if (Player.transform.position.x > MapPartSize.x * CurrentLevelCoords.x - MapPartLoadOffset.x
+            && !SceneManager.GetSceneByName("MapPart " + (CurrentLevelCoords.x - 1) + " " + CurrentLevelCoords.y).isLoaded)
+            {
+                yield return AsyncLoadMapPart(new Vector2Int(CurrentLevelCoords.x - 1, CurrentLevelCoords.y));
+                yield return AsyncUnLoadMapPart(new Vector2(CurrentLevelCoords.x + 1, CurrentLevelCoords.y));
+            }
+
+            if (Player.transform.position.z > MapPartSize.y * (CurrentLevelCoords.y + 1) - MapPartLoadOffset.y
+            && !SceneManager.GetSceneByName("MapPart " + CurrentLevelCoords.x + " " + (CurrentLevelCoords.y + 1)).isLoaded)
+            {
+                yield return AsyncLoadMapPart(new Vector2Int(CurrentLevelCoords.x, CurrentLevelCoords.y + 1));
+                yield return AsyncUnLoadMapPart(new Vector2(CurrentLevelCoords.x, CurrentLevelCoords.y - 1));
+            }
+            if (Player.transform.position.z > MapPartSize.y * CurrentLevelCoords.y - MapPartLoadOffset.y
+            && !SceneManager.GetSceneByName("MapPart " + CurrentLevelCoords.x + " " + CurrentLevelCoords.y).isLoaded)
+            {
+                yield return AsyncLoadMapPart(new Vector2Int(CurrentLevelCoords.x, CurrentLevelCoords.y - 1));
+                yield return AsyncUnLoadMapPart(new Vector2(CurrentLevelCoords.x, CurrentLevelCoords.y + 1));
+            }
 
             yield return new WaitForSeconds(1);
         }
@@ -115,7 +139,7 @@ public class BaseManager : MonoBehaviour
     // асинхронно загружает часть карты
     IEnumerator AsyncLoadMapPart(Vector2Int coords)
     {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("MapPart " + coords.x + " " + coords.y);
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("MapPart " + coords.x + " " + coords.y, LoadSceneMode.Additive);
 
         while (!asyncLoad.isDone)
         {
@@ -125,7 +149,7 @@ public class BaseManager : MonoBehaviour
     // асинхронно выгружает часть карты
     IEnumerator AsyncUnLoadMapPart(Vector2 coords)
     {
-        if (SceneManager.GetSceneByName("MapPart " + CurrentLevelCoords.x + " " + CurrentLevelCoords.y) != null)
+        if (SceneManager.GetSceneByName("MapPart " + coords.x + " " + coords.y) != null)
         {
             AsyncOperation asyncLoad = SceneManager.UnloadSceneAsync("MapPart " + CurrentLevelCoords.x + " " + CurrentLevelCoords.y);
 

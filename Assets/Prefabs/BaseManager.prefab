@@ -47,5 +47,7 @@ MonoBehaviour:
   CurrentLevelCoords: {x: 0, y: 0}
   Player: {fileID: 0}
   _playerPrefab: {fileID: 26545488246748058, guid: ac99b29e63f934946a7b03add27c11d3, type: 3}
-  MapPartSize: {x: 256, y: 256}
-  MapPartLoadOffset: {x: 32, y: 32}
+  _hpPrefab: {fileID: 5263946131374778807, guid: 20bc72288af4735458ac6dc5b7698392, type: 3}
+  _canvasPrefab: {fileID: 200436332805289976, guid: 40a9622a73c0a5c4394d517eda63a793, type: 3}
+  MapPartSize: {x: 800, y: 800}
+  MapPartLoadOffset: {x: 64, y: 64}

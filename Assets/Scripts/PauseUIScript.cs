@@ -24,6 +24,7 @@ public class PauseUIScript : MonoBehaviour
     public void ExitMainMenu()
     {
         Time.timeScale = 1;
+        _pauseUI.SetActive(false);
         BaseManager.Manager.LoadMainMenu();
     }
 }

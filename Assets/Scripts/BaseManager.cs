@@ -15,14 +15,11 @@ public class BaseManager : MonoBehaviour
     public Vector2Int CurrentLevelCoords;
     public Player Player;
 
-    [SerializeField] private GameObject _playerPrefab;
-    [SerializeField] private GameObject _hpPrefab;
-    [SerializeField] private GameObject _canvasPrefab;
+    [SerializeField] private GameObject _baseObjectsPrefab;
+    private GameObject _baseObjects;
 
     // размер частей карты
     public Vector2 MapPartSize;
-    // расстояние от края карты, к которому должен приблизиться игрок, для прогрузки следующей части
-    public Vector2 MapPartLoadOffset;
     // хранит состояние загруженности частей карт
     public Dictionary<Vector2Int, bool> MapPartIsLoad;
 
@@ -44,12 +41,10 @@ public class BaseManager : MonoBehaviour
     static public void Init(GameObject manager)
     {
         Manager = manager.GetComponent<BaseManager>();
-        Manager.Player = Instantiate(Manager._playerPrefab).GetComponent<Player>();
-        DontDestroyOnLoad(Manager.Player.gameObject);
-        Manager.Player.gameObject.SetActive(false);
-
-        DontDestroyOnLoad(Instantiate(Manager._hpPrefab));
-        DontDestroyOnLoad(Instantiate(Manager._canvasPrefab));
+        Manager._baseObjects = Instantiate(Manager._baseObjectsPrefab);
+        Manager.Player = Manager._baseObjects.transform.GetChild(0).GetComponent<Player>();
+        DontDestroyOnLoad(Manager._baseObjects);
+        Manager._baseObjects.SetActive(false);
     }
 
     // сохраняет данные об игре
@@ -88,17 +83,20 @@ public class BaseManager : MonoBehaviour
     // загружает гл меню
     public void LoadMainMenu()
     {
+        MapPartIsLoad = new Dictionary<Vector2Int, bool>();
+
         StopCoroutine(MapLoader());
         SceneManager.LoadScene("MainMenu");
-        Player.gameObject.SetActive(false);
+        Manager._baseObjects.SetActive(false);
     }
 
     // загружает первые куски карты
     public void PreLoadLevel()
     {
-        Player.gameObject.SetActive(true);
+        Manager._baseObjects.SetActive(true);
         SceneManager.LoadScene("MapPart " + CurrentLevelCoords.x + " " + CurrentLevelCoords.y);
-        MapPartIsLoad.Add(CurrentLevelCoords, true);
+        if (!MapPartIsLoad.ContainsKey(CurrentLevelCoords))
+            MapPartIsLoad.Add(CurrentLevelCoords, true);
         StartCoroutine(AsyncLoadMapArea());
         StartCoroutine(MapLoader());
     }
@@ -137,17 +135,18 @@ public class BaseManager : MonoBehaviour
         // уничтожаем все сцены которые остались после создания (они существуют, но в новой генерации не нужны)
         for (int i = 0; i < allScenes.Count; i++)
         {
-            string[] s = allScenes[i].name.Split();
-            yield return AsyncUnLoadMapPart(new Vector2Int(int.Parse(s[1]), int.Parse(s[2])));
+            if (allScenes[i].IsValid())
+            {
+                string[] s = allScenes[i].name.Split();
+                yield return AsyncUnLoadMapPart(new Vector2Int(int.Parse(s[1]), int.Parse(s[2])));
+            }
         }
     }
     // асинхронно загружает часть карты
     IEnumerator AsyncLoadMapPart(Vector2Int coords)
-    {   
+    {
         if (!ExistScene(coords))
             yield break;
-
-        Debug.Log(coords);
 
         if (!MapPartIsLoad.ContainsKey(coords))
         {

@@ -67,3 +67,10 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+/save.dat
+/Assets/Models.meta
+/Assets/Models/sprout.mtl
+/Assets/Models/sprout.mtl.meta
+/Assets/Models/sprout.obj
+/Assets/Models/sprout.obj.meta
+/Assets/Models/Objects.fbx

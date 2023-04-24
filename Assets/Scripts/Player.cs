@@ -1,28 +1,52 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
     private Rigidbody _rigidbody;
 
-    [SerializeField] private float _speed;
+    public float Speed;
+    // выбирает ли игрок квест
+    [HideInInspector] public bool IsQuestChooseMenu;
+    // дэш способность
+    [SerializeField] private float _dashForce;
+    [SerializeField] private float _dashReloadTime;
+    private bool _dashReady;
+
+    public int Gems;
+
+    // в сугробе ли игрок
+    public bool InSnowDrift;
 
     // боевая система
     [SerializeField] private float _punchDamage;
-    [SerializeField] private float _punchForce;
+    //задержка при ударе
+    [SerializeField] private float _punchReload;
+    private float _timePunchReloading;
+    // ковровый удар
+    [SerializeField] private float _carpetPunchDamage;
+    [SerializeField] private float _carpetPunchSpeed;
+    [SerializeField] private int _carpetPunchLifeTime;
+    [SerializeField] private int _carpetPunchReloadTime;
+    private bool _carpetPunchReady;
+    [SerializeField] private GameObject _carpetPunchPrefab;
+    // супер молниеносный удра
+    [SerializeField] private int _lightningDamage;
+    [SerializeField] private int _lightningReloadTime;
+    private bool _lightningReady;
+    [SerializeField] private GameObject _cloudPrefab;
+
     // враги которые находятся в радиусе действия удара
     [SerializeField] private List<Enemy> _enemies;
-    //задержка
-    [SerializeField] private float _pause;
-    private float _time;
     //здоровье
-    [SerializeField] private int _maxHealth;
-    [SerializeField] private int _health;
-
+    public int _maxHealth;
+    [SerializeField] int _health;
     public int Health
     {
         set
@@ -35,43 +59,71 @@ public class Player : MonoBehaviour
         }
         get { return _health; }
     }
-
-
-    private void Death()
-    {
-        
-    }
+    // скорость восстановления здоровья
+    [SerializeField] private int _healthRegenSpeed;
 
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _health = _maxHealth;
+        StartCoroutine(CarpetReload());
+        StartCoroutine(LightningReload());
+        StartCoroutine(HealthRegen());
+        StartCoroutine(DashReload());
     }
 
     private void Update()
     {
         // простая атака и задержка между ударами
-        if (Input.GetMouseButtonDown(0) && _time <= 0)
+        if (Input.GetMouseButtonDown(0) && _timePunchReloading <= 0)
         {
-            Attack();
-            _time = _pause;
+            PunchAttack();
+            _timePunchReloading = _punchReload;
         }
-        if (_time > 0f)
+        if (_timePunchReloading > 0f)
         {
-            _time -= Time.deltaTime;
+            _timePunchReloading -= Time.deltaTime;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) && _carpetPunchReady && Gems >= 10)
+        {
+            Gems -= 1;
+            CarpetPunchAttack();
+            _carpetPunchReady = false;
+            StartCoroutine(CarpetReload());
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q) && _lightningReady && Gems >= 15)
+        {
+            Gems -= 3;
+            LightningAttack();
+            _lightningReady = false;
+            StartCoroutine(LightningReload());
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && _dashReady && Gems >= 5)
+        {
+            Dash();
+            _dashReady = false;
+            StartCoroutine(DashReload());
         }
     }
 
     void FixedUpdate()
     {
         // движение
-        Vector3 m_Input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        _rigidbody.MovePosition(transform.position + m_Input * Time.deltaTime * _speed);
+        Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        if (Math.Abs(_rigidbody.velocity.x) + Math.Abs(_rigidbody.velocity.z) < Speed)
+        {
+            _rigidbody.AddForce(input * Speed, ForceMode.Impulse);
+        }
+        _rigidbody.AddForce(_rigidbody.velocity.normalized * (-Speed / 2), ForceMode.Impulse);
+
 
         // поворот
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
-        Quaternion deg = Quaternion.Euler(0, Mathf.Atan2(-y, x) * Mathf.Rad2Deg, 0);
+        Quaternion deg = Quaternion.Euler(0, Mathf.Atan2(x, y) * Mathf.Rad2Deg, 0);
         if (x != 0 || y != 0)
             _rigidbody.MoveRotation(deg);
     }
@@ -89,8 +141,40 @@ public class Player : MonoBehaviour
             _enemies.Remove(other.gameObject.GetComponent<Enemy>());
     }
 
+    // дэш
+    private void Dash()
+    {
+        _rigidbody.AddForce(transform.forward * _dashForce, ForceMode.Impulse);
+    }
+
+    IEnumerator DashReload()
+    {
+        yield return new WaitForSeconds(_dashReloadTime);
+        _dashReady = true;
+    }
+
+
+    // АТАКИ
+
+    IEnumerator CarpetReload()
+    {
+        yield return new WaitForSeconds(_carpetPunchReloadTime);
+        _carpetPunchReady = true;
+    }
+
+    private void CarpetPunchAttack()
+    {
+        GameObject carpet = Instantiate(_carpetPunchPrefab);
+        carpet.transform.position = transform.position - new Vector3(0, transform.localScale.y / 1.5f, 0);
+        Quaternion q = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
+        carpet.transform.rotation = q;
+        carpet.GetComponent<CarpetPunch>().Speed = _carpetPunchSpeed;
+        carpet.GetComponent<CarpetPunch>().Damage = _carpetPunchDamage;
+        carpet.GetComponent<CarpetPunch>().LifeTime = _carpetPunchLifeTime;
+    }
+
     // простая атака
-    void Attack()
+    void PunchAttack()
     {
         for (int i = 0; i < _enemies.Count; i++)
         {
@@ -99,11 +183,48 @@ public class Player : MonoBehaviour
                 _enemies.Remove(_enemies[i]);
                 continue;
             }
-            // получение урона
-            Vector3 vec = _enemies[i].transform.position - transform.position;
-            float dis = vec.magnitude;
-            Vector3 dir = vec / dis;
-            _enemies[i].Damage(_punchDamage, dir * _punchForce);
+            else
+            {
+                // нанесение урона врагу
+                Vector3 vec = _enemies[i].transform.position - transform.position;
+                float dis = vec.magnitude;
+                Vector3 dir = vec / dis;
+                _enemies[i].Damage(_punchDamage, dir * 10);
+
+
+                // Вампирска способность
+                if (Gems > 20)
+                    Health++;
+            }
         }
     }
+
+    IEnumerator LightningReload()
+    {
+        yield return new WaitForSeconds(_lightningReloadTime);
+        _lightningReady = true;
+    }
+
+    private void LightningAttack()
+    {
+        GameObject cloud = Instantiate(_cloudPrefab);
+        cloud.transform.position = transform.position + new Vector3(0, 10, 0);
+        cloud.GetComponent<Cloud>().Damage = _lightningDamage;
+    }
+
+    // реген хп
+    IEnumerator HealthRegen()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(_healthRegenSpeed);
+            Health += 1;
+        }
+    }
+
+    private void Death()
+    {
+
+    }
+
 }

@@ -8,6 +8,11 @@ public class CameraChase : MonoBehaviour
     [SerializeField] private Vector3 _basePos;
     [SerializeField] private float _smooth;
 
+    private void Start()
+    {
+        _chaseObj = BaseManager.Manager.Player.gameObject;
+    }
+
     void Update()
     {
         Vector3 positionToGo = _chaseObj.transform.position + _basePos;
